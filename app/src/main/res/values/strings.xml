@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">FirstNews</string>
+    <string name="Recientes">Recientes</string>
+    <string name="Favoritas">Favoritas</string>
+</resources>

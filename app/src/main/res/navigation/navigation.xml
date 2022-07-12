@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/nav_UITabs">
+
+    <fragment
+        android:id="@+id/nav_UITabs"
+        android:name="com.shokworks.firstnews.ui.contentTabs.UITabs"
+        android:label=""
+        tools:layout="@layout/fragment_uitabs" />
+    <fragment
+        android:id="@+id/nav_UINew"
+        android:name="com.shokworks.firstnews.ui.news.UINew"
+        android:label=""
+        tools:layout="@layout/fragment_uinew" />
+    <fragment
+        android:id="@+id/nav_UIFavorite"
+        android:name="com.shokworks.firstnews.ui.favorite.UIFavorite"
+        android:label=""
+        tools:layout="@layout/fragment_uifavorite" />
+
+</navigation>

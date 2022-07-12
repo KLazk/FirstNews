@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="currencyEditText">
+        <attr name="groupDivider" format="string" />
+        <attr name="monetaryDivider" format="string" />
+        <attr name="locale" format="string" />
+        <attr name="showSymbol" format="boolean" />
+        <attr name="eraseWhenZero" format="boolean" />
+        <attr name="decimalPoints" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="ds">
+        <attr name="backgroundFondo" format="color" />
+        <attr name="backgroundUI" format="color" />
+        <attr name="backgroundCard" format="color" />
+        <attr name="color_Hint" format="color" />
+        <attr name="colorTexto_1" format="color" />
+        <attr name="colorTexto_2" format="color" />
+        <attr name="colorTexto_3" format="color" />
+
+    </declare-styleable>
+</resources>
