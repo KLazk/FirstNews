@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import com.google.android.material.tabs.TabLayoutMediator
 import com.shokworks.firstnews.R
 import com.shokworks.firstnews.databinding.FragmentUitabsBinding
-import com.shokworks.firstnews.provides.AdapterTabPager
+import com.shokworks.firstnews.providers.AdapterTabPager
 import com.shokworks.firstnews.ui.favorite.UIFavorite
 import com.shokworks.firstnews.ui.news.UINew
 import timber.log.Timber

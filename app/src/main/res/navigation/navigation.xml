@@ -9,7 +9,11 @@
         android:id="@+id/nav_UITabs"
         android:name="com.shokworks.firstnews.ui.contentTabs.UITabs"
         android:label=""
-        tools:layout="@layout/fragment_uitabs" />
+        tools:layout="@layout/fragment_uitabs" >
+        <action
+            android:id="@+id/action_nav_UITabs_to_nav_DetailsNews"
+            app:destination="@id/nav_DetailsNews"/>
+    </fragment>
     <fragment
         android:id="@+id/nav_UINew"
         android:name="com.shokworks.firstnews.ui.news.UINew"
@@ -20,5 +24,10 @@
         android:name="com.shokworks.firstnews.ui.favorite.UIFavorite"
         android:label=""
         tools:layout="@layout/fragment_uifavorite" />
+    <fragment
+        android:id="@+id/nav_DetailsNews"
+        android:name="com.shokworks.firstnews.ui.webView.DetailsNews"
+        android:label=""
+        tools:layout="@layout/fragment_detailsnews" />
 
 </navigation>

@@ -1,4 +1,4 @@
-package com.shokworks.firstnews.provides
+package com.shokworks.firstnews.providers
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
