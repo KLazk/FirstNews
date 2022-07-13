@@ -1,8 +1,9 @@
 package com.shokworks.firstnews.viewModels
 
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.shokworks.firstnews.dbRoom.TFavNews
 import com.shokworks.firstnews.network.Repository
 import com.shokworks.firstnews.network.entitys.Article
 import com.shokworks.firstnews.network.entitys.News
@@ -10,13 +11,43 @@ import com.shokworks.firstnews.providers.NetworkError
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
 
-    /** Obtener en el VM las noticias mas recientes l*/
+    /** Metodo observe de las noticias */
+    fun getLiveDataNews(): LiveData<List<TFavNews>>? {
+        return repository.dbListFavNews()
+    }
+
+    /** Metodo para guardar una noticia */
+    fun vmInsertNew(
+        favNew: Article
+    ) {
+        viewModelScope.launch {
+            try {
+                repository.dbInsertFavNew(favNew)
+            } catch (e: Exception){
+               // onFailure(e.message.toString(), 0)
+            }
+        }
+    }
+
+    /** Metodo para eliminar una noticia favorita */
+    fun vmDeleteFavNew(
+        favNew: TFavNews
+    ) {
+        viewModelScope.launch {
+            try {
+                repository.dbDeleteFavNew(favNew)
+            } catch (e: Exception){
+                // onFailure(e.message.toString(), 0)
+            }
+        }
+    }
+
+    /** Obtener en el VM las noticias mas recientes */
     fun vmGetNews(
         q: String,
         from: String,

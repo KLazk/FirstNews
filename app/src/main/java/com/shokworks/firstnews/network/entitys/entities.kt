@@ -1,23 +1,23 @@
 package com.shokworks.firstnews.network.entitys
 
 data class News(
-    val status: String,
-    val totalResults: Int,
-    val articles: List<Article>
+    var status: String,
+    var totalResults: Int,
+    var articles: List<Article>
 )
 
 data class Article(
-    val author: String,
-    val content: String,
-    val description: String,
-    val publishedAt: String,
-    val source: Source,
-    val title: String,
-    val url: String,
-    val urlToImage: String
+    var author: String,
+    var content: String,
+    var description: String,
+    var publishedAt: String,
+    var source: Source,
+    var title: String,
+    var url: String,
+    var urlToImage: String
 )
 
 data class Source(
-    val id: String,
-    val name: String
+    var id: String,
+    var name: String
 )

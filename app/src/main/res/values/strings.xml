@@ -1,5 +1,15 @@
 <resources>
     <string name="app_name">FirstNews</string>
-    <string name="Recientes">Recientes</string>
-    <string name="Favoritas">Favoritas</string>
+    <string name="Noticias">Noticias</string>
+    <string name="Recientes">Portada</string>
+    <string name="Favoritas">Mis noticias</string>
+    <string name="Agregar">Agregar</string>
+    <string name="Eliminar">Eliminar</string>
+    <string name="Cancelar">Cancelar</string>
+
+    <string name="confirmarGuardar">¿Desea guardar está noticia en favoritos?</string>
+    <string name="confirmarEliminar">¿Desea eliminar está noticia de la sección de favoritos?</string>
+    <string name="SinNoticias">¡Sin Noticias Recientes!</string>
+    <string name="AgregarFavoritos">Agregar Favoritos</string>
+
 </resources>

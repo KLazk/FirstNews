@@ -1,7 +1,12 @@
 package com.shokworks.firstnews.network
 
 import androidx.compose.ui.platform.AndroidUiDispatcher.Companion.Main
+import androidx.lifecycle.LiveData
+import com.shokworks.firstnews.App
+import com.shokworks.firstnews.dbRoom.TFavNews
+import com.shokworks.firstnews.network.entitys.Article
 import com.shokworks.firstnews.network.entitys.News
+import com.shokworks.firstnews.providers.ConstructObject
 import com.shokworks.firstnews.providers.NetworkError
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
@@ -11,6 +16,37 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class Repository @Inject constructor(private val apiServices: ApiServices) {
+
+    @Inject lateinit var constructObject: ConstructObject
+
+    /** ---------------------- METODO DB ROOM PARA LAS NOTICIAS FAVORITAS ----------------------- */
+
+    /** Instancie de la DB para insert una Noticie Favorite */
+    suspend fun dbInsertFavNew(article: Article) = withContext(Dispatchers.IO){
+        return@withContext App.database.scDao().insertFavNoticie(constructObject.addTFavNews(article))
+    }
+
+    /** Instancie de la DB para obtener una Noticie Favorite */
+    suspend fun dbGetFavNew(favNew: TFavNews) = withContext(Dispatchers.IO){
+        return@withContext App.database.scDao().getFavNoticie(favNew.id)
+    }
+
+    /** Instancie de la DB para obtener una Noticie Favorite */
+    fun dbListFavNews(): LiveData<List<TFavNews>>?{
+        return App.database.scDao().getListFavNoticie()
+    }
+
+    /** Instancie de la DB para eliminar todas las Noticies Favorites */
+    suspend fun dbDeleteFavNew(favNews: TFavNews) = withContext(Dispatchers.IO){
+        return@withContext App.database.scDao().deleteItemFavNew(favNews.id)
+    }
+
+    /** Instancie de la DB para eliminar todas las Noticies Favorites */
+    suspend fun dbDeleteFavNewsAll() = withContext(Dispatchers.IO){
+        return@withContext App.database.scDao().deleteFavNoticiesAll()
+    }
+
+     /** ---------------------- METODO REQUEST DE LA API ----------------------------- */
 
     /** Metodo para obtener las noticias */
     suspend fun apiGetNews(
@@ -30,7 +66,6 @@ class Repository @Inject constructor(private val apiServices: ApiServices) {
             when {
                 response.isSuccessful -> {
                     withContext(Main) {
-                        Timber.e("Code Response: ${response.code()}")
                         if (response.body() != null) onSuccess(response.body()) else onSuccess(null)
                     }
                 }
@@ -49,5 +84,4 @@ class Repository @Inject constructor(private val apiServices: ApiServices) {
             }
         }
     }
-
 }

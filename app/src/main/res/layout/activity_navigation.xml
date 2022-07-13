@@ -20,6 +20,27 @@
             app:elevation="0dp"
             app:popupTheme="@style/Theme.FirstNews.PopupOverlay">
 
+            <TextView
+                android:id="@+id/idTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Noticias"
+                android:layout_marginEnd="@dimen/dimen_20"
+                android:textColor="@color/blanco"
+                android:fontFamily="@font/quicksand_bold"
+                android:textSize="@dimen/dimen_30"
+                android:gravity="center"/>
+
+            <ImageView
+                android:id="@+id/idIconFav"
+                android:layout_width="@dimen/dimen_32"
+                android:layout_height="@dimen/dimen_35"
+                android:visibility="gone"
+                tools:ignore="ContentDescription"
+                android:layout_marginEnd="@dimen/dimen_15"
+                app:tint="@color/blanco"
+                android:layout_gravity="end"/>
+
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -27,6 +48,7 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/background_Banner"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.fragment.app.FragmentContainerView

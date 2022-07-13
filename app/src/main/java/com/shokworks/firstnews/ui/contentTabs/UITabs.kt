@@ -11,7 +11,6 @@ import com.shokworks.firstnews.databinding.FragmentUitabsBinding
 import com.shokworks.firstnews.providers.AdapterTabPager
 import com.shokworks.firstnews.ui.favorite.UIFavorite
 import com.shokworks.firstnews.ui.news.UINew
-import timber.log.Timber
 
 class UITabs : Fragment() {
 
@@ -28,19 +27,13 @@ class UITabs : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Timber.e("UITabs")
         val adapter = AdapterTabPager(activity)
         adapter.addFragment(UINew(), requireContext().getString(R.string.Recientes))
         adapter.addFragment(UIFavorite(),  requireContext().getString(R.string.Favoritas))
-
         binding.viewPager.adapter = adapter
         binding.viewPager.currentItem = 0
         TabLayoutMediator(binding.tabs, binding.viewPager) { tab, position ->
             tab.text = adapter.getTabTitle(position)
         }.attach()
-
     }
-
-
-
 }

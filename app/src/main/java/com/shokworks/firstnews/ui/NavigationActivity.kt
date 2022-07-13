@@ -1,7 +1,8 @@
 package com.shokworks.firstnews.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -9,6 +10,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.shokworks.firstnews.R
 import com.shokworks.firstnews.databinding.ActivityNavigationBinding
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class NavigationActivity : AppCompatActivity() {
@@ -22,6 +24,8 @@ class NavigationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityNavigationBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
+
         navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
         appBarConfiguration = AppBarConfiguration.Builder(navController.graph).build()
@@ -29,6 +33,14 @@ class NavigationActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
+        binding.idIconFav.visibility = View.GONE
+        binding.idTitle.visibility = View.VISIBLE
         return navController.navigateUp()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        binding.idIconFav.visibility = View.GONE
+        binding.idTitle.visibility = View.VISIBLE
     }
 }
