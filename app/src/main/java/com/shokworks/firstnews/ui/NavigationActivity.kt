@@ -26,6 +26,7 @@ class NavigationActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
+        binding.idIconFav.setImageResource(R.drawable.ic_search_24dp)
         navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
         appBarConfiguration = AppBarConfiguration.Builder(navController.graph).build()
@@ -33,14 +34,14 @@ class NavigationActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        binding.idIconFav.visibility = View.GONE
+        binding.idIconFav.setImageResource(R.drawable.ic_search_24dp)
         binding.idTitle.visibility = View.VISIBLE
         return navController.navigateUp()
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
-        binding.idIconFav.visibility = View.GONE
+        binding.idIconFav.setImageResource(R.drawable.ic_search_24dp)
         binding.idTitle.visibility = View.VISIBLE
     }
 }

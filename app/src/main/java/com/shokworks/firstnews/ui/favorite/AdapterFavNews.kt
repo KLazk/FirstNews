@@ -1,5 +1,6 @@
 package com.shokworks.firstnews.ui.favorite
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,10 +11,13 @@ import com.shokworks.firstnews.databinding.ItemNewsBinding
 import com.shokworks.firstnews.dbRoom.TFavNews
 import com.shokworks.firstnews.providers.*
 import com.shokworks.firstnews.viewModels.MainViewModel
+import com.shokworks.firstnews.viewModels.NavViewModel
 
 class AdapterFavNews(
     private val context: Context,
     private var viewModel: MainViewModel,
+    private var navViewModel: NavViewModel,
+    private var constructObject: ConstructObject,
     private var sheetBottom: Dialog,
     private var listNews: ArrayList<TFavNews>
 ) : RecyclerView.Adapter<AdapterFavNews.ViewHolder>() {
@@ -25,8 +29,8 @@ class AdapterFavNews(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = listNews[position]
-        val timeFormat = stringDateToTimeFormat(fecha = convertirUTC(item.publishedAt))
-        holder.viewBinding.idDate.text = getWeekNameShort(timeFormat.dayOfWeek)+" "+timeFormat.day.toString()+" "+getNameMonthShort(timeFormat.month)
+        val timeFormat = stringDateToTimeFormat(fecha = converterUTC(item.publishedAt))
+        holder.viewBinding.idDate.text = String.format("%s %s %s", getWeekNameShort(timeFormat.dayOfWeek), timeFormat.day.toString(), getNameMonthShort(timeFormat.month))
         holder.viewBinding.idtitle.text = item.title
 
         holder.viewBinding.idIconFav.setImageResource(R.drawable.ic_fav_remove_24)
@@ -40,6 +44,7 @@ class AdapterFavNews(
                 refresh = {
                     if (it) {
                         viewModel.vmDeleteFavNew(favNew = item)
+                        navViewModel.sendNavigationNew(constructObject.addNews(item))
                     }
                 }
             )
@@ -57,7 +62,9 @@ class AdapterFavNews(
 
     inner class ViewHolder(var viewBinding: ItemNewsBinding) : RecyclerView.ViewHolder(viewBinding.root)
 
-    internal fun setNews(list: ArrayList<TFavNews>) {
+    @SuppressLint("NotifyDataSetChanged")
+    internal fun setNews(list: ArrayList<TFavNews>, navViewModel: NavViewModel) {
+        this.navViewModel = navViewModel
         listNews = list
         notifyDataSetChanged()
     }

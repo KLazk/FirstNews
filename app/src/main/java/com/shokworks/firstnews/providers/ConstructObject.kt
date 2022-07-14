@@ -17,4 +17,17 @@ class ConstructObject @Inject constructor() {
                urlToImage = article.urlToImage
         )
     }
+
+    fun addNews(tFavNews: TFavNews): Article {
+        return Article(
+            author = tFavNews.author,
+            content = tFavNews.content,
+            description = tFavNews.description,
+            publishedAt = tFavNews.publishedAt,
+            title = tFavNews.title,
+            url = tFavNews.url,
+            urlToImage = tFavNews.urlToImage,
+            isFav = true
+        )
+    }
 }

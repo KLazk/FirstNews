@@ -12,9 +12,9 @@ interface Dao {
     @Insert
     suspend fun insertFavNoticie(favNoticie: TFavNews)
 
-    /** Return los datos de una Noticie favorita */
-    @Query("SELECT * FROM TFavNews WHERE id LIKE :id")
-    suspend fun getFavNoticie(id: Int): TFavNews?
+    /** Return List Noticias favoritas */
+    @Query("SELECT * FROM TFavNews ORDER BY id DESC ")
+    fun getListAll(): List<TFavNews>?
 
     /** Return List Noticias favoritas */
     @Query("SELECT * FROM TFavNews ORDER BY id DESC ")
@@ -23,6 +23,10 @@ interface Dao {
     /** Eliminar una Noticia favorita */
     @Query("DELETE FROM TFavNews WHERE id = :id")
     suspend fun deleteItemFavNew(id: Int?)
+
+    /** Eliminar una Noticia favorita */
+    @Query("DELETE FROM TFavNews WHERE author = :author AND title = :title ")
+    suspend fun deleteItemFav(author: String?, title: String?)
 
     /** Eliminar todas las Noticias favoritas */
     @Query("DELETE FROM TFavNews")

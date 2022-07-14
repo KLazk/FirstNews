@@ -13,21 +13,19 @@
         <action
             android:id="@+id/action_nav_UITabs_to_nav_DetailsNews"
             app:destination="@id/nav_DetailsNews"/>
+        <action
+            android:id="@+id/action_nav_UITabs_to_UISearchNews"
+            app:destination="@id/nav_UISearchNews" />
     </fragment>
-    <fragment
-        android:id="@+id/nav_UINew"
-        android:name="com.shokworks.firstnews.ui.news.UINew"
-        android:label=""
-        tools:layout="@layout/fragment_uinew" />
-    <fragment
-        android:id="@+id/nav_UIFavorite"
-        android:name="com.shokworks.firstnews.ui.favorite.UIFavorite"
-        android:label=""
-        tools:layout="@layout/fragment_uifavorite" />
     <fragment
         android:id="@+id/nav_DetailsNews"
         android:name="com.shokworks.firstnews.ui.webView.DetailsNews"
         android:label=""
         tools:layout="@layout/fragment_detailsnews" />
+    <fragment
+        android:id="@+id/nav_UISearchNews"
+        android:name="com.shokworks.firstnews.ui.navSearch.UISearchNews"
+        android:label=""
+        tools:layout="@layout/fragment_uisearchnews" />
 
 </navigation>

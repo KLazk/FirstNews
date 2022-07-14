@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebResourceError
+import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
@@ -14,6 +16,7 @@ import com.shokworks.firstnews.R
 import com.shokworks.firstnews.databinding.FragmentDetailsnewsBinding
 import com.shokworks.firstnews.dbRoom.TFavNews
 import com.shokworks.firstnews.network.entitys.Article
+import com.shokworks.firstnews.providers.ConstructObject
 import com.shokworks.firstnews.providers.Dialog
 import com.shokworks.firstnews.ui.NavigationActivity
 import com.shokworks.firstnews.viewModels.MainViewModel
@@ -34,6 +37,7 @@ class DetailsNews : Fragment() {
     /** Inject ViewModel */
     private val viewModel by viewModels<MainViewModel>()
     @Inject lateinit var dialog: Dialog
+    @Inject lateinit var constructObject: ConstructObject
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -75,13 +79,21 @@ class DetailsNews : Fragment() {
         activity.idIconFav.setOnClickListener {
             dialog.bottomSheet(
                 context = requireContext(),
-                mensaje = "",
-                descripcion = requireContext().getString(R.string.confirmarEliminar),
+                mensaje = article?.title ?: itemFavNew!!.title,
+                descripcion = ""/*if (boolean) requireContext().getString(R.string.confirmarGuardar) else requireContext().getString(R.string.confirmarEliminar)*/,
                 boolean = boolean,
                 refresh = {
                     if (it) {
-                        if (article != null) viewModel.vmInsertNew(favNew = article) else viewModel.vmDeleteFavNew(favNew = itemFavNew!!)
-                        popBackStack()
+                        if (article != null) {
+                            if (article.isFav) activity.idIconFav.setImageResource(R.drawable.ic_fav_false_24) else activity.idIconFav.setImageResource(R.drawable.ic_fav_true_24)
+                            Timber.e("idIconFav desde noticias recientes isFav: ${!article.isFav}")
+                            viewModel.updateIsFav(itemNew = article, isFav = !article.isFav)
+                            navViewModel.sendNavigationNew(article)
+                        } else {
+                            activity.idIconFav.setImageResource(R.drawable.ic_fav_false_24)
+                            viewModel.vmDeleteFavNew(favNew = itemFavNew!!)
+                            navViewModel.sendNavigationNew(constructObject.addNews(itemFavNew))
+                        }
                     }
                 }
             )
@@ -92,12 +104,26 @@ class DetailsNews : Fragment() {
         binding.idWebview.loadUrl(url)
         binding.idWebview.webViewClient = WebViewClient()
         binding.idWebview.webViewClient = object : WebViewClient() {
-            override fun onPageFinished(view: WebView, url: String) {
+            override fun onPageFinished(
+                view: WebView,
+                url: String) {
                 super.onPageFinished(view, url)
-                Timber.e("webViewClient cargo exitosamente...")
+                Timber.e("onPageFinished")
+            }
+
+            override fun onReceivedError(
+                view: WebView?,
+                request: WebResourceRequest?,
+                error: WebResourceError?
+            ) {
+                Timber.e("onReceivedError: $error")
+                binding.idInfoRv.visibility = View.VISIBLE
+                binding.idWebview.visibility = View.GONE
+                super.onReceivedError(view, request, error)
             }
         }
     }
+
     /** onBackPressed */
     private fun popBackStack() {
         navViewModel.removeNavArgumt(activity)

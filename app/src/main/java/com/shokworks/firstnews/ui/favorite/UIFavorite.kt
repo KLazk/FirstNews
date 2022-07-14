@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.shokworks.firstnews.R
 import com.shokworks.firstnews.databinding.FragmentUifavoriteBinding
 import com.shokworks.firstnews.dbRoom.TFavNews
+import com.shokworks.firstnews.providers.ConstructObject
 import com.shokworks.firstnews.providers.Dialog
 import com.shokworks.firstnews.providers.onItemClick
 import com.shokworks.firstnews.ui.NavigationActivity
@@ -19,7 +20,6 @@ import com.shokworks.firstnews.viewModels.MainViewModel
 import com.shokworks.firstnews.viewModels.NavViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_navigation.*
-import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -32,13 +32,15 @@ class UIFavorite : Fragment() {
     /** Inject ViewModel */
     private val viewModel by viewModels<MainViewModel>()
     private lateinit var navViewModel: NavViewModel
-    @Inject
-    lateinit var sheetBottom: Dialog
+    @Inject lateinit var sheetBottom: Dialog
+    @Inject lateinit var constructObject: ConstructObject
 
     private val adapterFavNews: AdapterFavNews by lazy {
         AdapterFavNews(
             requireContext(),
             viewModel,
+            navViewModel,
+            constructObject,
             sheetBottom,
             arrayListOf()
         )
@@ -62,11 +64,10 @@ class UIFavorite : Fragment() {
         binding.rvFavNews.layoutManager = LinearLayoutManager(requireContext())
         binding.rvFavNews.adapter = adapterFavNews
         viewModel.getLiveDataNews()?.observe(viewLifecycleOwner) { response ->
-            Timber.e("getLiveDataNews: ${response.size}")
             if (response.isNotEmpty()) {
                 binding.rvFavNews.visibility = View.VISIBLE
                 binding.idInfoRv.visibility = View.GONE
-                adapterFavNews.setNews(response as ArrayList<TFavNews>)
+                adapterFavNews.setNews(response as ArrayList<TFavNews>, navViewModel)
                 binding.rvFavNews.onItemClick { _, p, _ ->
                     activity.idIconFav.visibility = View.VISIBLE
                     activity.idIconFav.setImageResource(R.drawable.ic_fav_remove_24)

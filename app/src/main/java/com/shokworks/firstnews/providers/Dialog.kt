@@ -1,12 +1,18 @@
 package com.shokworks.firstnews.providers
 
+import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
+import android.view.View
+import android.view.WindowManager
 import com.facebook.shimmer.Shimmer
 import com.facebook.shimmer.ShimmerDrawable
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.shokworks.firstnews.R
 import com.shokworks.firstnews.databinding.AlertdialogBinding
+import com.shokworks.firstnews.databinding.AlertmessageBinding
 import javax.inject.Inject
 
 class Dialog @Inject constructor(){
@@ -54,5 +60,37 @@ class Dialog @Inject constructor(){
         return ShimmerDrawable().apply {
             setShimmer(shimmer)
         }
+    }
+
+    fun menssage(
+        context: Context,
+        mensaje: String,
+        descripcion: String,
+        boolean: Boolean,
+        refresh: (Boolean) -> Unit,
+    ) {
+        val dialog = Dialog(context)
+        val bind: AlertmessageBinding = AlertmessageBinding.inflate(LayoutInflater.from(context))
+
+        bind.idMensaje.text = mensaje
+        bind.idDescripcion.text = descripcion
+        bind.idBtn2.text = context.getString(R.string.Recargar)
+        bind.idBtn2.visibility = if (!boolean) View.GONE else View.VISIBLE
+        bind.idBtn2.setOnClickListener {
+            refresh(true)
+            dialog.dismiss()
+        }
+
+        bind.idCancelar.text = context.getString(R.string.Cancelar)
+        bind.idCancelar.setOnClickListener {
+            refresh(false)
+            dialog.dismiss()
+        }
+
+        dialog.setContentView(bind.root)
+        dialog.setCancelable(false)
+        dialog.show()
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window!!.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
     }
 }

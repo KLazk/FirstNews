@@ -27,7 +27,7 @@
 
     <style name="Theme.FirstNews.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="Base.Widget.Design.TabLayout" parent="android:Widget">
+    <style name="Base.Widget.Design.TabLayout" parent="android:Widget" tools:ignore="PrivateResource">
         <item name="tabIndicator">@drawable/tab_indicador</item>
         <item name="tabTextColor">#000000</item>
         <item name="tabSelectedTextColor">#FFFFFF</item>

@@ -20,6 +20,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
+                android:text="@string/confirmarEliminar"
                 android:fontFamily="@font/quicksand_bold"
                 android:textColor="?attr/colorTexto_1"
                 android:textSize="@dimen/dimen_17" />

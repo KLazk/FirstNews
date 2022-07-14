@@ -1,5 +1,6 @@
 package com.shokworks.firstnews.ui.news
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -25,24 +26,22 @@ class AdapterNews(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = listNews[position]
-        val timeFormat = stringDateToTimeFormat(fecha = convertirUTC(item.publishedAt))
-        holder.viewBinding.idDate.text = getWeekNameShort(timeFormat.dayOfWeek)+" "+timeFormat.day.toString()+" "+getNameMonthShort(timeFormat.month)
+        val timeFormat = stringDateToTimeFormat(fecha = converterUTC(item.publishedAt))
+        holder.viewBinding.idDate.text = String.format("%s %s %s", getWeekNameShort(timeFormat.dayOfWeek), timeFormat.day.toString(), getNameMonthShort(timeFormat.month))
         holder.viewBinding.idtitle.text = item.title
+        holder.viewBinding.idDescription.text = item.description
 
-        holder.viewBinding.idIconFav.setImageResource(R.drawable.ic_fav_false_24)
+        when(item.isFav){
+            true -> holder.viewBinding.idIconFav.setImageResource(R.drawable.ic_fav_true_24)
+            false -> holder.viewBinding.idIconFav.setImageResource(R.drawable.ic_fav_false_24)
+        }
+
         holder.viewBinding.idIconFav.setOnClickListener {
             /** onClick para abrir la ventana de confirmación para agregar a favorito una noticia */
-            dialog.bottomSheet(
-                context = context,
-                mensaje = item.title,
-                descripcion = context.getString(R.string.confirmarGuardar),
-                boolean = true,
-                refresh = {
-                    if (it) {
-                        viewModel.vmInsertNew(favNew = item)
-                    }
-                }
-            )
+            when(item.isFav){
+                true -> viewModel.updateIsFav(itemNew = item, isFav = false)
+                false -> viewModel.updateIsFav(itemNew = item, isFav = true)
+            }
         }
 
         GlideApp.with(context)
@@ -58,6 +57,7 @@ class AdapterNews(
 
     inner class ViewHolder(var viewBinding: ItemNewsBinding) : RecyclerView.ViewHolder(viewBinding.root)
 
+    @SuppressLint("NotifyDataSetChanged")
     internal fun setNews(list: ArrayList<Article>) {
         listNews = list
         notifyDataSetChanged()

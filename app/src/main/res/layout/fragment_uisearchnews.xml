@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:layout_marginTop="@dimen/dimen_5"
+        android:orientation="horizontal">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="@drawable/border_editext"
+            android:layout_marginTop="@dimen/dimen_15"
+            android:layout_marginStart="@dimen/dimen_20"
+            android:layout_marginEnd="@dimen/dimen_20"
+            android:layout_marginBottom="@dimen/dimen_5"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dimen_50">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/Buscar"
+                    android:autofillHints="name"
+                    android:inputType="text"
+                    android:background="@drawable/border_editext"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:textSize="@dimen/dimen_13"
+                    android:singleLine="true"
+                    android:maxLines="1"
+                    android:layout_marginStart="@dimen/dimen_10"
+                    android:imeOptions="actionSearch"
+                    android:fontFamily="@font/quicksand_semibold" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!--     <com.github.clans.fab.FloatingActionButton
+                 android:id="@+id/idSearchLupa"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="center"
+                 android:src="@drawable/ic_search_24dp"
+                 app:fab_colorNormal="@color/colorBlanco"
+                 app:fab_colorPressed="@color/color_GrisTexto"
+                 android:layout_marginLeft="5dp"
+                 android:layout_marginRight="5dp"
+                 android:elevation="3dp"
+                 app:fab_size="mini" />-->
+
+    </LinearLayout>
+
+</LinearLayout>

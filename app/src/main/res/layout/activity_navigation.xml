@@ -35,7 +35,6 @@
                 android:id="@+id/idIconFav"
                 android:layout_width="@dimen/dimen_32"
                 android:layout_height="@dimen/dimen_35"
-                android:visibility="gone"
                 tools:ignore="ContentDescription"
                 android:layout_marginEnd="@dimen/dimen_15"
                 app:tint="@color/blanco"

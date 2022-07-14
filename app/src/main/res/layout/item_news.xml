@@ -51,6 +51,18 @@
                     android:layout_marginBottom="@dimen/dimen_7"
                     android:textStyle="bold"/>
 
+                <TextView
+                    android:id="@+id/idDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="?attr/colorTexto_1"
+                    android:fontFamily="@font/quicksand_light"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:textSize="@dimen/dimen_13"
+                    android:layout_marginBottom="@dimen/dimen_7"
+                    android:textStyle="bold"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

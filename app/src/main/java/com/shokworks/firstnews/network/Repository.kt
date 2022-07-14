@@ -3,6 +3,7 @@ package com.shokworks.firstnews.network
 import androidx.compose.ui.platform.AndroidUiDispatcher.Companion.Main
 import androidx.lifecycle.LiveData
 import com.shokworks.firstnews.App
+import com.shokworks.firstnews.BuildConfig
 import com.shokworks.firstnews.dbRoom.TFavNews
 import com.shokworks.firstnews.network.entitys.Article
 import com.shokworks.firstnews.network.entitys.News
@@ -12,7 +13,6 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Response
-import timber.log.Timber
 import javax.inject.Inject
 
 class Repository @Inject constructor(private val apiServices: ApiServices) {
@@ -21,24 +21,29 @@ class Repository @Inject constructor(private val apiServices: ApiServices) {
 
     /** ---------------------- METODO DB ROOM PARA LAS NOTICIAS FAVORITAS ----------------------- */
 
-    /** Instancie de la DB para insert una Noticie Favorite */
+    /** Instancie del Query de la DB para insert una Noticia Favorita */
     suspend fun dbInsertFavNew(article: Article) = withContext(Dispatchers.IO){
         return@withContext App.database.scDao().insertFavNoticie(constructObject.addTFavNews(article))
     }
 
-    /** Instancie de la DB para obtener una Noticie Favorite */
-    suspend fun dbGetFavNew(favNew: TFavNews) = withContext(Dispatchers.IO){
-        return@withContext App.database.scDao().getFavNoticie(favNew.id)
+    /** Instancie del Query de la DB para obtener la lista de Noticias Favoritas */
+    suspend fun dbListAll() = withContext(Dispatchers.IO){
+        return@withContext App.database.scDao().getListAll()
     }
 
-    /** Instancie de la DB para obtener una Noticie Favorite */
+    /** Instancie del Query de la DB para observe Noticias Favoritas */
     fun dbListFavNews(): LiveData<List<TFavNews>>?{
         return App.database.scDao().getListFavNoticie()
     }
 
-    /** Instancie de la DB para eliminar todas las Noticies Favorites */
-    suspend fun dbDeleteFavNew(favNews: TFavNews) = withContext(Dispatchers.IO){
-        return@withContext App.database.scDao().deleteItemFavNew(favNews.id)
+    /** Instancie del Query de la DB para eliminar una Noticia Favorita por id */
+    suspend fun dbDeleteFavID(itemFav: TFavNews) = withContext(Dispatchers.IO){
+        return@withContext App.database.scDao().deleteItemFavNew(itemFav.id)
+    }
+
+    /** Instancie del Query de la DB para eliminar una Noticia Favorita desde las noticias recientes*/
+    suspend fun dbDeleteItemFav(itemFavNews: Article) = withContext(Dispatchers.IO){
+        return@withContext App.database.scDao().deleteItemFav(itemFavNews.author, itemFavNews.title)
     }
 
     /** Instancie de la DB para eliminar todas las Noticies Favorites */
@@ -54,14 +59,18 @@ class Repository @Inject constructor(private val apiServices: ApiServices) {
         from: String,
         to: String,
         sortBy: String,
-        apiKey: String,
         onSuccess: (News?) -> Unit,
         onFailure: (String, Int) -> Unit,
     ) {
         val response: Response<News>
         var code = 0
         try {
-            response = apiServices.getNews(q = q, from = from, to = to, sortBy = sortBy, apiKey = apiKey)
+            response = apiServices.getNews(
+                q = q,
+                from = from,
+                to = to,
+                sortBy = sortBy,
+                apiKey = BuildConfig.NEWS_ID)
             code = response.code()
             when {
                 response.isSuccessful -> {

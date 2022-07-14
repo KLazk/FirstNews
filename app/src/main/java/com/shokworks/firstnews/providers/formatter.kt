@@ -1,7 +1,6 @@
 package com.shokworks.firstnews.providers
 
 import android.annotation.SuppressLint
-import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -10,15 +9,10 @@ import java.util.*
 @SuppressLint("SimpleDateFormat")
 fun timeCurrent(): String = SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().time)
 
-@SuppressLint("SimpleDateFormat")
-fun convertirFormatoUTC(fecha: String?, UTC: (String) -> Unit) {
-    UTC(SimpleDateFormat("dd/MM/yyyy").format(SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").parse(fecha)))
-}
-
-fun convertirUTC(fecha: String): String{
-    val output = SimpleDateFormat("dd-MM-yyyy HH:mm a")
+fun converterUTC(fecha: String): String{
+    val output = SimpleDateFormat("dd-MM-yyyy HH:mm a", Locale.getDefault())
     output.timeZone = TimeZone.getTimeZone("GMT-4")
-    return output.format(SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(fecha))
+    return output.format(SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault()).parse(fecha)!!)
 }
 
 data class TimeFormat(
@@ -67,27 +61,24 @@ enum class MonthOfYear {
 
 fun getNameMonthShort(num: Int): String{
     return when (num - 1){
-        MonthOfYear.JANUARY.ordinal -> {"Enero"}
-        MonthOfYear.FEBRUARY.ordinal -> {"Febrero"}
-        MonthOfYear.MARCH.ordinal -> {"Marzo"}
-        MonthOfYear.APRIL.ordinal -> {"Abril"}
-        MonthOfYear.MAY.ordinal -> {"Mayo"}
-        MonthOfYear.JUNE.ordinal -> {"Junio"}
-        MonthOfYear.JULY.ordinal -> {"Julio"}
-        MonthOfYear.AUGUST.ordinal -> {"Agosto"}
-        MonthOfYear.SEPTEMBER.ordinal -> {"Septiembre"}
-        MonthOfYear.OCTOBER.ordinal -> {"Octubre"}
-        MonthOfYear.NOVEMBER.ordinal -> {"Noviembre"}
-        MonthOfYear.DECEMBER.ordinal -> {"Diciembre"}
+        MonthOfYear.JANUARY.ordinal -> {"de enero"}
+        MonthOfYear.FEBRUARY.ordinal -> {"de febrero"}
+        MonthOfYear.MARCH.ordinal -> {"de marzo"}
+        MonthOfYear.APRIL.ordinal -> {"de abril"}
+        MonthOfYear.MAY.ordinal -> {"de mayo"}
+        MonthOfYear.JUNE.ordinal -> {"de junio"}
+        MonthOfYear.JULY.ordinal -> {"de julio"}
+        MonthOfYear.AUGUST.ordinal -> {"de agosto"}
+        MonthOfYear.SEPTEMBER.ordinal -> {"de septiembre"}
+        MonthOfYear.OCTOBER.ordinal -> {"de octubre"}
+        MonthOfYear.NOVEMBER.ordinal -> {"de noviembre"}
+        MonthOfYear.DECEMBER.ordinal -> {"de diciembre"}
         else -> {"UNK"}
     }
 }
 
 @SuppressLint("NewApi")
 fun stringDateToTimeFormat(fecha: String): TimeFormat {
-    Timber.e("Timer: $fecha")
-    val firstApiFormat = DateTimeFormatter.ofPattern("dd-MM-yyy HH:mm a")
-    val date = LocalDate.parse(fecha , firstApiFormat)
-    Timber.e("Date: $date")
+    val date = LocalDate.parse(fecha , DateTimeFormatter.ofPattern("dd-MM-yyy HH:mm a"))
     return TimeFormat(day = date.dayOfMonth, dayOfWeek = date.dayOfWeek.name, month = date.month.value)
 }

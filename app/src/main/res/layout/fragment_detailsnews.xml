@@ -3,11 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/blanco"
     tools:context=".ui.webView.DetailsNews">
+
+    <TextView
+        android:id="@+id/idInfoRv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fontFamily="@font/quicksand_light"
+        android:layout_margin="@dimen/dimen_20"
+        android:text="@string/Fallo"
+        android:gravity="center"
+        android:visibility="gone"
+        android:textSize="@dimen/dimen_25"/>
 
     <WebView
         android:id="@+id/idWebview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"/>
 
 </FrameLayout>

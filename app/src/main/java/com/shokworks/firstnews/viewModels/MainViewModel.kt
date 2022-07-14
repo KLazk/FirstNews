@@ -1,8 +1,6 @@
 package com.shokworks.firstnews.viewModels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.shokworks.firstnews.dbRoom.TFavNews
 import com.shokworks.firstnews.network.Repository
 import com.shokworks.firstnews.network.entitys.Article
@@ -11,49 +9,105 @@ import com.shokworks.firstnews.providers.NetworkError
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
+class MainViewModel @Inject constructor(
+    private val repository: Repository) : ViewModel() {
 
-    /** Metodo observe de las noticias */
+    private var itemsNews: MutableLiveData<List<Article>> = MutableLiveData(listOf())
+    val score: LiveData<List<Article>>
+        get() = itemsNews
+
+    /** Agregar Noticias a la lista */
+    private var list = mutableListOf<Article>()
+    fun setArticle(itemsNew: News?) {
+        viewModelScope.launch {
+            try {
+                list = itemsNew?.articles as MutableList<Article>
+                val listFavNews = repository.dbListAll() ?: listOf()
+                if (listFavNews.isNotEmpty()){
+                    list.forEach { itemNews ->
+                        listFavNews.filter { ((itemNews.author == it.author) && (itemNews.title == it.title)) }.map { itemNews.isFav = true }
+                    }
+                }
+                itemsNews.value = list
+            } catch (e: Exception){
+                e.message.toString()
+            }
+        }
+    }
+
+    /** Control para activar y desaptivar noticias de la lista general */
+    fun updateIsFav(
+        itemNew: Article,
+        isFav: Boolean) {
+        viewModelScope.launch {
+            try {
+                Timber.e("listas ViewModel: ${itemsNews.value!!.size}")
+                when(isFav){
+                    true -> { /** Add Noticia a la sesión de favoritos **/
+                        repository.dbInsertFavNew(itemNew)
+                        list.filter { ((it.author == itemNew.author) && (it.title == itemNew.title)) }.map { it.isFav = true }
+                    }
+                    false -> {/** Eliminar Noticia de la sesión de favoritos **/
+                        repository.dbDeleteItemFav(itemNew)
+                        list.filter { ((it.author == itemNew.author) && (it.title == itemNew.title)) }.map { it.isFav = false }
+                    }
+                }
+
+                itemsNews.value = list
+            } catch (e: Exception){
+                e.message.toString()
+            }
+        }
+    }
+
+    fun updIsFav(
+        itemNew: Article,
+        isFav: Boolean) {
+        viewModelScope.launch {
+            try {
+                Timber.e("listas ViewModel: ${itemsNews.value!!.size}")
+                when(isFav){
+                    true -> { /** Add Noticia a la sesión de favoritos **/
+                        list.filter { ((it.author == itemNew.author) && (it.title == itemNew.title)) }.map { it.isFav = false }
+                    }
+                    false -> {/** Eliminar Noticia de la sesión de favoritos **/
+                        list.filter { ((it.author == itemNew.author) && (it.title == itemNew.title)) }.map { it.isFav = true }
+                    }
+                }
+
+                itemsNews.value = list
+            } catch (e: Exception){
+                e.message.toString()
+            }
+        }
+    }
+
+    /** Observe de las Noticias Favoritas */
     fun getLiveDataNews(): LiveData<List<TFavNews>>? {
         return repository.dbListFavNews()
     }
 
-    /** Metodo para guardar una noticia */
-    fun vmInsertNew(
-        favNew: Article
-    ) {
-        viewModelScope.launch {
-            try {
-                repository.dbInsertFavNew(favNew)
-            } catch (e: Exception){
-               // onFailure(e.message.toString(), 0)
-            }
-        }
-    }
-
     /** Metodo para eliminar una noticia favorita */
-    fun vmDeleteFavNew(
-        favNew: TFavNews
-    ) {
+    fun vmDeleteFavNew(favNew: TFavNews) {
         viewModelScope.launch {
             try {
-                repository.dbDeleteFavNew(favNew)
+                repository.dbDeleteFavID(favNew)
             } catch (e: Exception){
-                // onFailure(e.message.toString(), 0)
+                e.message.toString()
             }
         }
     }
 
-    /** Obtener en el VM las noticias mas recientes */
+    /** Obtener en el ViewModel las noticias más recientes */
     fun vmGetNews(
         q: String,
         from: String,
         to: String,
         sortBy: String,
-        apiKey: String,
         onSuccess: (News?) -> Unit,
         onFailure: (String, Int) -> Unit,
     ) {
@@ -63,7 +117,6 @@ class MainViewModel @Inject constructor(private val repository: Repository) : Vi
                 from = from,
                 to = to,
                 sortBy = sortBy,
-                apiKey = apiKey,
                 onSuccess = { response ->
                     this.launch {
                         try {

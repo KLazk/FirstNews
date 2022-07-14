@@ -6,6 +6,12 @@ plugins {
     id 'kotlin-android-extensions'
 }
 
+def NEWS_ID = '"'+ApiKeyNews+'"'
+android.buildTypes.each { type ->
+    type.resValue 'string', 'NEWS_ID', NEWS_ID
+    type.buildConfigField 'String', 'NEWS_ID', NEWS_ID
+}
+
 android {
     compileSdk 32
 
@@ -88,6 +94,12 @@ dependencies {
 
     /** Dependencies of ShimmerEffectInAndroid */
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
+    /** Dependencies of Animation Lottie */
+    implementation 'com.airbnb.android:lottie:5.2.0'
+
+    /** Dependencies of swiperefreshlayout */
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
