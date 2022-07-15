@@ -18,7 +18,7 @@ class AdapterFavNews(
     private var viewModel: MainViewModel,
     private var navViewModel: NavViewModel,
     private var constructObject: ConstructObject,
-    private var sheetBottom: Dialog,
+    private var dialog: Dialog,
     private var listNews: ArrayList<TFavNews>
 ) : RecyclerView.Adapter<AdapterFavNews.ViewHolder>() {
 
@@ -32,11 +32,10 @@ class AdapterFavNews(
         val timeFormat = stringDateToTimeFormat(fecha = converterUTC(item.publishedAt))
         holder.viewBinding.idDate.text = String.format("%s %s %s", getWeekNameShort(timeFormat.dayOfWeek), timeFormat.day.toString(), getNameMonthShort(timeFormat.month))
         holder.viewBinding.idtitle.text = item.title
-
         holder.viewBinding.idIconFav.setImageResource(R.drawable.ic_fav_remove_24)
         holder.viewBinding.idIconFav.setOnClickListener {
             /** onClick para abrir la ventana de confirmación para eliminar de la sesion de favoritos una noticia */
-            sheetBottom.bottomSheet(
+            dialog.bottomSheet(
                 context = context,
                 mensaje = item.title,
                 descripcion = context.getString(R.string.confirmarEliminar),
@@ -52,6 +51,7 @@ class AdapterFavNews(
 
         GlideApp.with(context)
             .load(item.urlToImage)
+            .placeholder(dialog.shimmerEffect())
             .centerCrop()
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .into(holder.viewBinding.idImgNews)

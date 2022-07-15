@@ -15,11 +15,9 @@ import com.shokworks.firstnews.dbRoom.TFavNews
 import com.shokworks.firstnews.providers.ConstructObject
 import com.shokworks.firstnews.providers.Dialog
 import com.shokworks.firstnews.providers.onItemClick
-import com.shokworks.firstnews.ui.NavigationActivity
 import com.shokworks.firstnews.viewModels.MainViewModel
 import com.shokworks.firstnews.viewModels.NavViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_navigation.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -27,7 +25,6 @@ class UIFavorite : Fragment() {
 
     private lateinit var _binding: FragmentUifavoriteBinding
     private val binding get() = _binding
-    private lateinit var activity: NavigationActivity
 
     /** Inject ViewModel */
     private val viewModel by viewModels<MainViewModel>()
@@ -56,7 +53,6 @@ class UIFavorite : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (getActivity() as NavigationActivity).also { activity = it }
 
         navViewModel = ViewModelProvider(requireActivity())[NavViewModel::class.java]
 
@@ -66,19 +62,13 @@ class UIFavorite : Fragment() {
         viewModel.getLiveDataNews()?.observe(viewLifecycleOwner) { response ->
             if (response.isNotEmpty()) {
                 binding.rvFavNews.visibility = View.VISIBLE
-                binding.idInfoRv.visibility = View.GONE
                 adapterFavNews.setNews(response as ArrayList<TFavNews>, navViewModel)
                 binding.rvFavNews.onItemClick { _, p, _ ->
-                    activity.idIconFav.visibility = View.VISIBLE
-                    activity.idIconFav.setImageResource(R.drawable.ic_fav_remove_24)
-                    activity.idTitle.visibility = View.GONE
                     navViewModel.sendNavFavNew(response[p])
                     findNavController().navigate(R.id.action_nav_UITabs_to_nav_DetailsNews)
                 }
             } else {
                 binding.rvFavNews.visibility = View.GONE
-                binding.idInfoRv.visibility = View.VISIBLE
-                binding.idInfoRv.text = requireContext().getString(R.string.AgregarFavoritos)
             }
         }
     }

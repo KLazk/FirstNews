@@ -6,6 +6,7 @@ import com.shokworks.firstnews.network.Repository
 import com.shokworks.firstnews.network.entitys.Article
 import com.shokworks.firstnews.network.entitys.News
 import com.shokworks.firstnews.providers.NetworkError
+import com.shokworks.firstnews.providers.timeCurrent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
@@ -102,21 +103,24 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    /** Navegation de data ItemsNewFilter */
+    var query = MutableLiveData<String>("apple")
+    fun sendQueryNewList(tQuery: String) {
+        query.value = tQuery
+    }
+
     /** Obtener en el ViewModel las noticias más recientes */
     fun vmGetNews(
-        q: String,
-        from: String,
-        to: String,
-        sortBy: String,
         onSuccess: (News?) -> Unit,
         onFailure: (String, Int) -> Unit,
     ) {
         viewModelScope.launch {
+            val timer = timeCurrent()
             repository.apiGetNews(
-                q = q,
-                from = from,
-                to = to,
-                sortBy = sortBy,
+                q = query.value.toString(),
+                from = timer,
+                to = timer,
+                sortBy = "popularity",
                 onSuccess = { response ->
                     this.launch {
                         try {

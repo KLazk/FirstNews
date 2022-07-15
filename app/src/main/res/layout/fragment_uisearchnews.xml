@@ -1,10 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="@color/background_Banner"
     android:orientation="vertical">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/idAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stateListAnimator="@null"
+        android:background="@color/backgroundToolbar"
+        android:theme="@style/Theme.FirstNews.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:elevation="0dp"
+            app:popupTheme="@style/Theme.FirstNews.PopupOverlay">
+
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background"
+        android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,10 +54,18 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
+                <ImageView
+                    android:layout_width="@dimen/dimen_30"
+                    android:layout_height="@dimen/dimen_30"
+                    android:layout_margin="@dimen/dimen_15"
+                    android:contentDescription="@string/Buscar"
+                    android:background="@drawable/ic_search_24dp"
+                    android:backgroundTint="@color/gris"/>
+
                 <EditText
-                    android:id="@+id/search"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/idSearchView"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:hint="@string/Buscar"
                     android:autofillHints="name"
                     android:inputType="text"
@@ -42,27 +75,80 @@
                     android:textSize="@dimen/dimen_13"
                     android:singleLine="true"
                     android:maxLines="1"
-                    android:layout_marginStart="@dimen/dimen_10"
+                    android:layout_weight="1"
                     android:imeOptions="actionSearch"
                     android:fontFamily="@font/quicksand_semibold" />
 
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <!--     <com.github.clans.fab.FloatingActionButton
-                 android:id="@+id/idSearchLupa"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_gravity="center"
-                 android:src="@drawable/ic_search_24dp"
-                 app:fab_colorNormal="@color/colorBlanco"
-                 app:fab_colorPressed="@color/color_GrisTexto"
-                 android:layout_marginLeft="5dp"
-                 android:layout_marginRight="5dp"
-                 android:elevation="3dp"
-                 app:fab_size="mini" />-->
-
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/dimen_5"
+        android:orientation="vertical">
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/idSwipeRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/idConstraintLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/dimen_9"
+                android:layout_marginRight="@dimen/dimen_9"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/idInfoRv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/quicksand_light"
+                    android:text="@string/buscarNoticias"
+                    android:layout_margin="@dimen/dimen_25"
+                    android:gravity="center"
+                    android:textSize="@dimen/dimen_30"/>
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/idShimmerNews"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:ignore="MissingConstraints">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <include layout="@layout/item_shimmer" />
+                        <include layout="@layout/item_shimmer"/>
+                        <include layout="@layout/item_shimmer"/>
+                        <include layout="@layout/item_shimmer"/>
+                        <include layout="@layout/item_shimmer"/>
+                        <include layout="@layout/item_shimmer"/>
+                        <include layout="@layout/item_shimmer"/>
+
+                    </LinearLayout>
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvNews"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/dimen_9"
+                    android:layout_marginRight="@dimen/dimen_9"
+                    android:orientation="vertical" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

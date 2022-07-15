@@ -1,6 +1,10 @@
 package com.shokworks.firstnews.providers
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Context
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -81,4 +85,11 @@ fun getNameMonthShort(num: Int): String{
 fun stringDateToTimeFormat(fecha: String): TimeFormat {
     val date = LocalDate.parse(fecha , DateTimeFormatter.ofPattern("dd-MM-yyy HH:mm a"))
     return TimeFormat(day = date.dayOfMonth, dayOfWeek = date.dayOfWeek.name, month = date.month.value)
+}
+
+/** Extensión para cerrar el teclado */
+fun Context.hideKeyboard(view: View): String {
+    val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+    inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+    return ""
 }

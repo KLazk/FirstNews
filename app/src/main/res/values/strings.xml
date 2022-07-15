@@ -8,9 +8,11 @@
     <string name="Eliminar">Eliminar</string>
     <string name="Cancelar">Cancelar</string>
     <string name="Buscar">Buscar</string>
+    <string name="buscarNoticias">¡Puede Buscar las Noticias de su preferencia!</string>
     <string name="confirmarGuardar">¿Desea guardar está noticia en favoritos?</string>
     <string name="confirmarEliminar">¿Desea eliminar está noticia de la sección de favoritos?</string>
     <string name="SinNoticias">¡Sin Noticias Recientes!</string>
+    <string name="SinResultado">¡Sin Noticias Recientes!</string>
     <string name="AgregarFavoritos">Agregar Favoritos</string>
     <string name="Fallo">Por favor verifique la configuración de su red e intente nuevamente.</string>
 

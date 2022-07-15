@@ -26,6 +26,10 @@
         android:id="@+id/nav_UISearchNews"
         android:name="com.shokworks.firstnews.ui.navSearch.UISearchNews"
         android:label=""
-        tools:layout="@layout/fragment_uisearchnews" />
+        tools:layout="@layout/fragment_uisearchnews" >
+        <action
+            android:id="@+id/action_nav_UISearchNews_to_nav_DetailsNews"
+            app:destination="@id/nav_DetailsNews" />
+    </fragment>
 
 </navigation>

@@ -5,10 +5,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.shokworks.firstnews.dbRoom.TFavNews
 import com.shokworks.firstnews.network.entitys.Article
+import com.shokworks.firstnews.network.entitys.News
 import com.shokworks.firstnews.ui.NavigationActivity
 import kotlinx.android.synthetic.main.activity_navigation.*
 
 class NavViewModel: ViewModel() {
+
+    /** Navegation de data ItemsNewFilter */
+    var newList = MutableLiveData<News>()
+    fun sendNavigationNewList(itemsNew: News) {
+        newList.value = itemsNew
+    }
 
     /** Navegation de data ItemFavNew */
     var new = MutableLiveData<Article>()
@@ -23,7 +30,6 @@ class NavViewModel: ViewModel() {
     }
     /** Delete Navegation de data New */
     fun removeNavArgumt(activity: NavigationActivity) {
-        activity.idTitle.visibility = View.VISIBLE
         article = MutableLiveData<Article>()
         favNews = MutableLiveData<TFavNews>()
     }

@@ -13,6 +13,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.shokworks.firstnews.R
 import com.shokworks.firstnews.databinding.AlertdialogBinding
 import com.shokworks.firstnews.databinding.AlertmessageBinding
+import com.shokworks.firstnews.databinding.ProgressBinding
 import javax.inject.Inject
 
 class Dialog @Inject constructor(){
@@ -77,8 +78,8 @@ class Dialog @Inject constructor(){
         bind.idBtn2.text = context.getString(R.string.Recargar)
         bind.idBtn2.visibility = if (!boolean) View.GONE else View.VISIBLE
         bind.idBtn2.setOnClickListener {
-            refresh(true)
             dialog.dismiss()
+            refresh(true)
         }
 
         bind.idCancelar.text = context.getString(R.string.Cancelar)
@@ -92,5 +93,25 @@ class Dialog @Inject constructor(){
         dialog.show()
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.window!!.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
+    }
+
+    lateinit var dialog: Dialog
+    fun initProgress(
+        context: Context,
+    ) {
+        dialog = Dialog(context)
+        val bind: ProgressBinding = ProgressBinding.inflate(LayoutInflater.from(context))
+        bind.animacionProgress.setAnimation(R.raw.animation)
+        dialog.setContentView(bind.root)
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.setCancelable(false)
+        dialog.show()
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window!!.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
+
+    }
+
+    fun finishProgress() {
+        dialog.dismiss()
     }
 }

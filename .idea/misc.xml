@@ -12,12 +12,13 @@
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.1585144927536232" />
         <entry key="app/src/main/res/layout/alertdialog.xml" value="0.25" />
         <entry key="app/src/main/res/layout/alertmessage.xml" value="0.1585144927536232" />
-        <entry key="app/src/main/res/layout/fragment_detailsnews.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/fragment_detailsnews.xml" value="0.189873417721519" />
         <entry key="app/src/main/res/layout/fragment_uifavorite.xml" value="0.1585144927536232" />
-        <entry key="app/src/main/res/layout/fragment_uinew.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/fragment_uisearchnews.xml" value="0.26141078838174275" />
-        <entry key="app/src/main/res/layout/fragment_uitabs.xml" value="0.1585144927536232" />
+        <entry key="app/src/main/res/layout/fragment_uinew.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_uisearchnews.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/fragment_uitabs.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_news.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/item_shimmer.xml" value="0.26770538243626063" />
       </map>
     </option>
   </component>
